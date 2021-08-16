@@ -1,11 +1,19 @@
 import ExpenseItem from './ExpenseItem'
 import './Expenses.css'
 import Card from '../UI/Card'
+import FilterByYear from '../Filter/Filter'
 
 const Expenses = (props) => {
+
+    const filterHandler = (event) => {
+        props.filter(event)
+    }
     
     return(
         <Card className='expenses'>
+
+            <FilterByYear filter={filterHandler}></FilterByYear>
+
             {props.items.map( expenseItem => (
             <ExpenseItem
                 key={expenseItem.id}
