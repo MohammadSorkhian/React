@@ -4,20 +4,36 @@ import Button from '../../UI/Button/Button';
 import './CourseInput.css';
 
 const CourseInput = props => {
+
   const [enteredValue, setEnteredValue] = useState('');
+  const [isValid, setIsValid] = useState(true);
+
 
   const goalInputChangeHandler = event => {
+
+    setIsValid(event.target.value.trim().length > 0 ? true : false)
+
     setEnteredValue(event.target.value);
   };
 
+
   const formSubmitHandler = event => {
+
     event.preventDefault();
+
+    if(enteredValue.trim().length === 0) {
+      setIsValid(false);
+      console.log(isValid)
+      return};
+
     props.onAddGoal(enteredValue);
   };
 
+
   return (
     <form onSubmit={formSubmitHandler}>
-      <div className="form-control">
+      <div className={`form-control ${!isValid && "invalid"}`}>
+      {/* <div className="form-control invalid"> */}
         <label>Course Goal</label>
         <input type="text" onChange={goalInputChangeHandler} />
       </div>
