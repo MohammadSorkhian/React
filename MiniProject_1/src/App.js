@@ -3,7 +3,7 @@ import Expenses from './components/Expenses/Expenses'
 import NewExpense from './components/NewExpense/NewExpense'
 import { useState } from 'react';
 
-const initialEpenses = [
+const initialExpenses = [
   {
     id: 'e1',
     title: 'Toilet Paper',
@@ -33,20 +33,24 @@ const initialEpenses = [
 
 const App = () => {
 
-  const [expenses, setExpenses] = useState(initialEpenses);
-  const [filteredExpensesByYear, setFilteredExpensesByYear] = useState(initialEpenses);
+  const [expenses, setExpenses] = useState(initialExpenses);
+  const [filteredExpensesByYear, setFilteredExpensesByYear] = useState(initialExpenses);
+  const [yearOfFilter, setYearOfFilter] = useState("All")
 
 
   const saveExpenseDataHandler = (enteredExpenseData) => {
-    setExpenses([
-      enteredExpenseData,
-      ...expenses,
-    ]);
+
+    setExpenses( (previousExpenses) => {
+      return [enteredExpenseData, ...previousExpenses]
+    });
+
+    selectedFilterHandler(yearOfFilter);
   }
 
 
   const selectedFilterHandler = (event) => { 
 
+    setYearOfFilter(event)
     console.log(event) 
 
     const templist = expenses.filter( ex => (
@@ -55,7 +59,7 @@ const App = () => {
     setFilteredExpensesByYear(event === "All"? expenses : templist);
   }
 
-  
+
   return (
     <div>
       <NewExpense
