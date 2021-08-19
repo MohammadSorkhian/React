@@ -49,10 +49,10 @@ const Login = (props) => {
 
   useEffect( () => {
     setFormIsValid(
-      emailState.value.trim().length > 6 && emailState.value.includes('@') &&
-      passwordState.value.length > 2
+      emailState.isValid && 
+      passwordState.isValid
     );
-  }, [emailState, passwordState])
+  }, [emailState.isValid, passwordState.isValid])
 
   const emailChangeHandler = (event) => {
     dispatchEmail({type:"USER_INPUT", value:event.target.value});
