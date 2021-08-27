@@ -6,13 +6,28 @@ const cartReducer = (state, action) => {
     if (action.type === "ADD") {
         const newITems = state.items.concat(action.item);
         const newTotalAmount = state.totalAmount + (action.item.price) * (action.item.amount)
-
         return ({
             items: newITems,
             totalAmount: newTotalAmount
         })
     }
+
+    if (action.type === "Remove") {
+        const indexOfItemToRemove = state.items.findIndex( item => {
+            return item.id === action.id
+        })
+        let updatedItems = [...state.items]
+        updatedItems.splice(indexOfItemToRemove,1);
+        const updatedTotalAmount = state.totalAmount - state.items[indexOfItemToRemove].price;
+
+        return ({
+            items: updatedItems,
+            totalAmount: updatedTotalAmount
+        })
+    }
 }
+
+
 
 
 const CartProvider = (props) => {
@@ -33,6 +48,7 @@ const CartProvider = (props) => {
         addItem: addItemToCart,
         removeItem: removeItemFromCart,
     }
+
 
     return (
         <CartContext.Provider value={cartContext}>
