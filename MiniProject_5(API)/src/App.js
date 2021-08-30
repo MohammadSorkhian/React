@@ -20,19 +20,35 @@ function App() {
   ];
 
   const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(false);
 
   const fetchMoviesHandler = async () => {
-    const res = fetch("https://swapi.dev/api/films")
-      .then(response => response.json())
-      .then( res => res.results)
-      .then ( moviesList => moviesList.map( m => {
+    
+    try{
+    const res = await fetch("https://swapi.dev/api/films cv")
+
+    if (!res.ok) {
+      console.log(res.status)
+      console.log(res)
+      setError(true)
+      throw new Error("something went wrong")
+    }
+
+    const data = await res.json()
+
+    const transformedData = data.results.map(m => {
         return {
           id: m.episode_id,
           title: m.title,
           openingText: m.opening_crawl,
           releaseDate: m.release_date
-        }}))
-      .then(res => setMovies(res))
+        }
+      })
+    
+      setMovies(transformedData)
+    }
+      catch (err) {console.log(err.message)}
+
   }
 
   return (
